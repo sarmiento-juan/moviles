@@ -37,15 +37,12 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 Text(
                   'Flutter - UCEVA',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],
             ),
           ),
-          
+
           // Sección: Navegación básica
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -82,9 +79,9 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          
+
           const Divider(),
-          
+
           // Sección: Asincronía
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -129,4 +126,3 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 }
-

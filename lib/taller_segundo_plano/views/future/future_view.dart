@@ -18,10 +18,10 @@ enum LoadingState { idle, loading, success, error }
 class _FutureViewState extends State<FutureView> {
   // Estado actual de la carga
   LoadingState _state = LoadingState.idle;
-  
+
   // Datos obtenidos
   List<Map<String, String>> _usuarios = [];
-  
+
   // Mensaje de error
   String _errorMessage = '';
 
@@ -46,7 +46,7 @@ class _FutureViewState extends State<FutureView> {
       // 🔵 DURANTE: Esperar la respuesta del servicio
       print('📱 [UI] Esperando respuesta del servicio...');
       final usuarios = await DataService.fetchUsers();
-      
+
       // 🟢 DESPUÉS: Actualizar UI con datos exitosos
       if (!mounted) return;
       setState(() {
@@ -54,7 +54,6 @@ class _FutureViewState extends State<FutureView> {
         _state = LoadingState.success;
       });
       print('📱 [UI] ✅ Datos mostrados en pantalla');
-      
     } catch (e) {
       // 🔴 ERROR: Manejar el error
       print('📱 [UI] ❌ Error capturado: $e');
@@ -76,17 +75,16 @@ class _FutureViewState extends State<FutureView> {
 
     try {
       final data = await DataService.fetchDashboardData();
-      
+
       if (!mounted) return;
       print('📱 [UI] ✅ Dashboard cargado: ${data.keys.length} secciones');
-      
+
       // Mostrar diálogo con los datos del dashboard
       _mostrarDialogoDashboard(data);
-      
+
       setState(() {
         _state = LoadingState.success;
       });
-      
     } catch (e) {
       print('📱 [UI] ❌ Error en dashboard: $e');
       if (!mounted) return;
@@ -107,15 +105,24 @@ class _FutureViewState extends State<FutureView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('📊 Estadísticas:', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                '📊 Estadísticas:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               Text('Usuarios: ${data['stats']['usuarios']}'),
               Text('Ventas: ${data['stats']['ventas']}'),
               Text('Ingresos: \$${data['stats']['ingresos']}'),
               const SizedBox(height: 16),
-              const Text('🔔 Notificaciones:', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                '🔔 Notificaciones:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               ...((data['notifications'] as List).map((n) => Text('• $n'))),
               const SizedBox(height: 16),
-              const Text('⚡ Actividad Reciente:', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                '⚡ Actividad Reciente:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               ...((data['activity'] as List).map((a) => Text('• $a'))),
             ],
           ),
@@ -141,13 +148,15 @@ class _FutureViewState extends State<FutureView> {
             // Indicador de estado
             _buildEstadoBanner(),
             const SizedBox(height: 16),
-            
+
             // Botones de acción
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: _state == LoadingState.loading ? null : _cargarUsuarios,
+                    onPressed: _state == LoadingState.loading
+                        ? null
+                        : _cargarUsuarios,
                     icon: const Icon(Icons.refresh),
                     label: const Text('Recargar Usuarios'),
                   ),
@@ -155,7 +164,9 @@ class _FutureViewState extends State<FutureView> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: _state == LoadingState.loading ? null : _cargarDashboard,
+                    onPressed: _state == LoadingState.loading
+                        ? null
+                        : _cargarDashboard,
                     icon: const Icon(Icons.dashboard),
                     label: const Text('Dashboard'),
                   ),
@@ -163,11 +174,9 @@ class _FutureViewState extends State<FutureView> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Contenido según el estado
-            Expanded(
-              child: _buildContenido(),
-            ),
+            Expanded(child: _buildContenido()),
           ],
         ),
       ),
@@ -316,4 +325,3 @@ class _FutureViewState extends State<FutureView> {
     }
   }
 }
-

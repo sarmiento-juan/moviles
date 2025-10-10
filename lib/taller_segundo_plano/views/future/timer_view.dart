@@ -15,10 +15,10 @@ class TimerView extends StatefulWidget {
 class _TimerViewState extends State<TimerView> {
   // Timer para el cronómetro
   Timer? _timer;
-  
+
   // Contador de segundos
   int _segundos = 0;
-  
+
   // Estado del cronómetro
   bool _isRunning = false;
   bool _isPaused = false;
@@ -64,7 +64,7 @@ class _TimerViewState extends State<TimerView> {
     setState(() {
       _isPaused = true;
     });
-    
+
     // Cancelar el timer pero mantener el contador
     _timer?.cancel();
   }
@@ -90,10 +90,10 @@ class _TimerViewState extends State<TimerView> {
   /// Reinicia el cronómetro
   void _reiniciarTimer() {
     print('🔄 [TIMER] Cronómetro reiniciado');
-    
+
     // Cancelar el timer actual
     _timer?.cancel();
-    
+
     setState(() {
       _segundos = 0;
       _isRunning = false;
@@ -137,10 +137,7 @@ class _TimerViewState extends State<TimerView> {
               ),
               child: Column(
                 children: [
-                  const Icon(
-                    Icons.timer,
-                    size: 48,
-                  ),
+                  const Icon(Icons.timer, size: 48),
                   const SizedBox(height: 16),
                   Text(
                     _formatearTiempo(),
@@ -156,7 +153,9 @@ class _TimerViewState extends State<TimerView> {
                     'Minutos : Segundos',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.7),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onPrimaryContainer.withOpacity(0.7),
                     ),
                   ),
                 ],
@@ -296,10 +295,7 @@ class _TimerViewState extends State<TimerView> {
               SizedBox(width: 8),
               Text(
                 'Información del Timer',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ],
           ),

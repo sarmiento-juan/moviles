@@ -54,13 +54,16 @@ class _IsolateViewState extends State<IsolateView> {
     for (int i = 0; i < 1000000000; i++) {
       suma += i;
       if (i % 100000000 == 0) {
-        print('🔴 [SIN ISOLATE] Procesando: ${(i / 1000000000 * 100).toStringAsFixed(0)}%');
+        print(
+          '🔴 [SIN ISOLATE] Procesando: ${(i / 1000000000 * 100).toStringAsFixed(0)}%',
+        );
       }
     }
 
     setState(() {
       _isLoading = false;
-      _resultado = "✅ Tarea completada SIN Isolate\nResultado: $suma\n\n⚠️ Notaste que la UI se bloqueó?";
+      _resultado =
+          "✅ Tarea completada SIN Isolate\nResultado: $suma\n\n⚠️ Notaste que la UI se bloqueó?";
     });
     print('🔴 [SIN ISOLATE] Tarea completada');
   }
@@ -75,29 +78,27 @@ class _IsolateViewState extends State<IsolateView> {
 
     try {
       final receivePort = ReceivePort();
-      
+
       // Crear el Isolate
       await Isolate.spawn(_tareaPesada, receivePort.sendPort);
-      
+
       // Obtener el SendPort del Isolate
       final sendPort = await receivePort.first as SendPort;
-      
+
       // Crear puerto para recibir respuesta
       final responsePort = ReceivePort();
-      
+
       // Enviar datos al Isolate
-      sendPort.send({
-        'limite': 1000000000,
-        'replyPort': responsePort.sendPort,
-      });
-      
+      sendPort.send({'limite': 1000000000, 'replyPort': responsePort.sendPort});
+
       // Esperar resultado
       final resultado = await responsePort.first as Map<String, dynamic>;
-      
+
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _resultado = """
+        _resultado =
+            """
 ✅ Tarea completada CON Isolate
 Resultado: ${resultado['suma']}
 Tiempo: ${resultado['tiempo']} ms
@@ -107,7 +108,6 @@ Puedes ver que el contador siguió funcionando.
         """;
       });
       print('🟢 [CON ISOLATE] Tarea completada');
-      
     } catch (e) {
       print('🔴 [ERROR] $e');
       if (!mounted) return;
@@ -123,7 +123,8 @@ Puedes ver que el contador siguió funcionando.
     print('🟣 [MÚLTIPLES ISOLATES] Iniciando cálculos en paralelo...');
     setState(() {
       _isLoading = true;
-      _resultado = "Ejecutando 3 tareas en paralelo...\nUsando múltiples Isolates";
+      _resultado =
+          "Ejecutando 3 tareas en paralelo...\nUsando múltiples Isolates";
     });
 
     try {
@@ -135,11 +136,12 @@ Puedes ver que el contador siguió funcionando.
       ];
 
       final resultados = await Future.wait(futures);
-      
+
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _resultado = """
+        _resultado =
+            """
 ✅ Tareas paralelas completadas
 
 ${resultados[0]['nombre']}: ${resultados[0]['suma']} (${resultados[0]['tiempo']} ms)
@@ -150,7 +152,6 @@ ${resultados[2]['nombre']}: ${resultados[2]['suma']} (${resultados[2]['tiempo']}
         """;
       });
       print('🟣 [MÚLTIPLES ISOLATES] Todas las tareas completadas');
-      
     } catch (e) {
       print('🔴 [ERROR] $e');
       if (!mounted) return;
@@ -162,18 +163,18 @@ ${resultados[2]['nombre']}: ${resultados[2]['suma']} (${resultados[2]['tiempo']}
   }
 
   /// Helper para ejecutar un cálculo en un Isolate
-  Future<Map<String, dynamic>> _ejecutarCalculoEnIsolate(int limite, String nombre) async {
+  Future<Map<String, dynamic>> _ejecutarCalculoEnIsolate(
+    int limite,
+    String nombre,
+  ) async {
     final receivePort = ReceivePort();
     await Isolate.spawn(_tareaPesada, receivePort.sendPort);
-    
+
     final sendPort = await receivePort.first as SendPort;
     final responsePort = ReceivePort();
-    
-    sendPort.send({
-      'limite': limite,
-      'replyPort': responsePort.sendPort,
-    });
-    
+
+    sendPort.send({'limite': limite, 'replyPort': responsePort.sendPort});
+
     final resultado = await responsePort.first as Map<String, dynamic>;
     resultado['nombre'] = nombre;
     return resultado;
@@ -184,33 +185,34 @@ ${resultados[2]['nombre']}: ${resultados[2]['suma']} (${resultados[2]['tiempo']}
   static void _tareaPesada(SendPort sendPort) async {
     final port = ReceivePort();
     sendPort.send(port.sendPort);
-    
+
     await for (final message in port) {
       final data = message as Map<String, dynamic>;
       final limite = data['limite'] as int;
       final replyPort = data['replyPort'] as SendPort;
-      
+
       print('🧵 [ISOLATE] Iniciando cálculo hasta $limite...');
       final stopwatch = Stopwatch()..start();
-      
+
       // Tarea CPU-bound: suma de números
       int suma = 0;
       for (int i = 0; i < limite; i++) {
         suma += i;
         if (i % 100000000 == 0 && i > 0) {
-          print('🧵 [ISOLATE] Progreso: ${(i / limite * 100).toStringAsFixed(0)}%');
+          print(
+            '🧵 [ISOLATE] Progreso: ${(i / limite * 100).toStringAsFixed(0)}%',
+          );
         }
       }
-      
+
       stopwatch.stop();
-      print('🧵 [ISOLATE] Cálculo completado en ${stopwatch.elapsedMilliseconds} ms');
-      
+      print(
+        '🧵 [ISOLATE] Cálculo completado en ${stopwatch.elapsedMilliseconds} ms',
+      );
+
       // Enviar resultado de vuelta
-      replyPort.send({
-        'suma': suma,
-        'tiempo': stopwatch.elapsedMilliseconds,
-      });
-      
+      replyPort.send({'suma': suma, 'tiempo': stopwatch.elapsedMilliseconds});
+
       port.close();
       Isolate.exit();
     }
@@ -227,7 +229,7 @@ ${resultados[2]['nombre']}: ${resultados[2]['suma']} (${resultados[2]['tiempo']}
             // Contador de UI (demuestra que la UI sigue respondiendo)
             _buildContadorUI(),
             const SizedBox(height: 16),
-            
+
             // Área de resultado
             Expanded(
               child: Container(
@@ -249,25 +251,25 @@ ${resultados[2]['nombre']}: ${resultados[2]['suma']} (${resultados[2]['tiempo']}
                             SizedBox(height: 8),
                             Text(
                               'Observa que el contador sigue funcionando',
-                              style: TextStyle(fontSize: 12, color: Colors.grey),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
                             ),
                           ],
                         )
-                      : Text(
-                          _resultado,
-                          style: const TextStyle(fontSize: 14),
-                        ),
+                      : Text(_resultado, style: const TextStyle(fontSize: 14)),
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Botones de acción
             _buildBotones(),
-            
+
             const SizedBox(height: 16),
-            
+
             // Info
             _buildInfo(),
           ],
@@ -295,10 +297,7 @@ ${resultados[2]['nombre']}: ${resultados[2]['suma']} (${resultados[2]['tiempo']}
             children: [
               const Text(
                 'Contador de UI',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12,
-                ),
+                style: TextStyle(color: Colors.white70, fontSize: 12),
               ),
               Text(
                 '$_contador segundos',
@@ -388,11 +387,16 @@ ${resultados[2]['nombre']}: ${resultados[2]['suma']} (${resultados[2]['tiempo']}
           ),
           SizedBox(height: 8),
           Text('🔴 Sin Isolate: Bloquea la UI', style: TextStyle(fontSize: 12)),
-          Text('🟢 Con Isolate: UI sigue respondiendo', style: TextStyle(fontSize: 12)),
-          Text('🟣 Múltiples: Procesamiento paralelo', style: TextStyle(fontSize: 12)),
+          Text(
+            '🟢 Con Isolate: UI sigue respondiendo',
+            style: TextStyle(fontSize: 12),
+          ),
+          Text(
+            '🟣 Múltiples: Procesamiento paralelo',
+            style: TextStyle(fontSize: 12),
+          ),
         ],
       ),
     );
   }
 }
-

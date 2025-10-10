@@ -16,35 +16,35 @@ final GoRouter appRouter = GoRouter(
       name: 'home',
       builder: (context, state) => const HomeScreen(),
     ),
-    
+
     // Ruta de ciclo de vida
     GoRoute(
       path: '/ciclo_vida',
       name: 'ciclo_vida',
       builder: (context, state) => const CicloVidaScreen(),
     ),
-    
+
     // Ruta de paso de parámetros
     GoRoute(
       path: '/paso_parametros',
       name: 'paso_parametros',
       builder: (context, state) => const PasoParametrosScreen(),
     ),
-    
+
     // Ruta de Future (async/await)
     GoRoute(
       path: '/future',
       name: 'future',
       builder: (context, state) => const FutureView(),
     ),
-    
+
     // Ruta de Timer (cronómetro)
     GoRoute(
       path: '/timer',
       name: 'timer',
       builder: (context, state) => const TimerView(),
     ),
-    
+
     // Ruta de Isolate (tareas pesadas)
     GoRoute(
       path: '/isolate',
@@ -53,4 +53,3 @@ final GoRouter appRouter = GoRouter(
     ),
   ],
 );
-
