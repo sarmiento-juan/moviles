@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "653320225861",
+    "project_id": "universidades-uceva",
+    "storage_bucket": "universidades-uceva.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653320225861:android:10c21e8e101641a80f4f2c",
+        "android_client_info": {
+          "package_name": "com.example.moviles"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO9PLWEAbHjcsWwLLEjfXqbXeuRQ4ghfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

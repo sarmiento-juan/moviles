@@ -1,0 +1,25 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Comprar leche",
+      "completed": false,
+      "updatedAt": "2025-11-14T10:00:00.000Z",
+      "deleted": false
+    },
+    {
+      "id": "2",
+      "title": "Estudiar Flutter",
+      "completed": true,
+      "updatedAt": "2025-11-14T09:30:00.000Z",
+      "deleted": false
+    },
+    {
+      "id": "3",
+      "title": "Hacer ejercicio",
+      "completed": false,
+      "updatedAt": "2025-11-14T08:00:00.000Z",
+      "deleted": false
+    }
+  ]
+}

@@ -26,3 +26,12 @@ linter:
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+
+analyzer:
+  exclude:
+    - lib/parcial_de_prueba/**
+    - lib/taller_firebase_universidades/**
+    - lib/taller_segundo_plano/**
+    - lib/Taller_http/**
+    - lib/Taller1/**
+    - lib/todo_app_backup/**
